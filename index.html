@@ -15,6 +15,11 @@
 
 <body>
 
+    <!-- checkbox pengontrol menu (hamburger), harus sebelum header -->
+    <input type="checkbox" id="nav-checkbox" class="nav-checkbox" aria-label="Toggle menu">
+    <!-- overlay gelap, klik untuk menutup sidebar -->
+    <label for="nav-checkbox" class="nav-overlay" aria-hidden="true"></label>
+
     <!-- header -->
     <header class="l-header">
         <nav class="nav bg-grid">
@@ -31,6 +36,12 @@
                     <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
             </div>
+
+            <!-- tombol hamburger (hanya tampil di layar kecil) -->
+            <label for="nav-checkbox" class="nav-toggle" id="nav-toggle" aria-label="Buka menu">
+                <i class='bx bx-menu icon-open'></i>
+                <i class='bx bx-x icon-close'></i>
+            </label>
 
             <!-- icon kanan -->
             <!-- <div class="nav-icons">
@@ -61,7 +72,7 @@
                 <div class="home-scroll">
                     <a href="#about" class="home-scroll-link"><i class='bx bx-up-arrow-alt'></i>Scroll down</a>
                 </div>
-                <img src="media/profil.png" style="width: 400px;" alt="" class="home-img">
+                <img src="images/profil.png" style="width: 400px"; alt="" class="home-img">
             </div>
         </section>
 
@@ -72,7 +83,7 @@
 
             <div class="about-container bg-grid">
                 <div class="about-img">
-                    <img src="media/profil.png" alt="">
+                    <img src="images/profil.png" style="width:200px; " alt="">
                 </div>
 
                 <div>
@@ -114,7 +125,7 @@
                 </div>
 
                 <div class="skills-img">
-                    <img src="media/skills.png" alt="">
+                    <img src="images/skills.png" alt="">
                 </div>
             </div>
         </section>
@@ -125,14 +136,14 @@
 
             <div class="reward-container bg-grid">
                 <div class="reward-img">
-                    <img src="media/HANIF WICAKSONO.png" alt="">
+                    <img src="images/HANIF WICAKSONO.png" alt="">
 
                     <div class="reward-link">
                         <a href="#" class="reward-link-name">View details</a>
                     </div>
                 </div>
                 <div class="reward-img">
-                    <img src="media/Hanif Wicaksono (1).png" alt="">
+                    <img src="images/Hanif Wicaksono (1).png" alt="">
 
                     <div class="reward-link">
                         <a href="#" class="reward-link-name">View details</a>
@@ -206,7 +217,7 @@
         <div class="footer-container bg-grid">
             <div class="footer-data">
                 <h2 class="footer-title">Onop.</h2>
-                <p class="footer-text">I'm Hanif and this my personal website</p>
+                <p class="footer-text">I'm Hanif and this my porto meeting assignments 7 matka web programming lectures</p>
             </div>
 
             <div class="footer-data">

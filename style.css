@@ -119,6 +119,8 @@ html {
 }
 
 body {
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
     margin: var(--header-height) 0 0 0;
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
@@ -140,6 +142,10 @@ ul {
 a {
     text-decoration: none;
     color: var(--text-color);
+}
+
+input, textarea, button {
+    font-family: inherit;
 }
 
 img {
@@ -208,19 +214,93 @@ img {
 }
 
 
-@media screen and (max-width: 768px) {
+/* checkbox & overlay (hamburger menu tanpa JavaScript) */
+.nav-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--z-fixed) - 1);
+    background-color: rgba(0, 0, 0, .5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+    cursor: pointer;
+}
+
+.nav-checkbox:checked ~ .nav-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* kunci scroll halaman saat sidebar terbuka */
+body:has(.nav-checkbox:checked) {
+    overflow: hidden;
+}
+
+/* sidebar (layar <= 768px) */
+@media screen and (max-width: 767px) {
+    .nav {
+        justify-content: space-between;
+    }
+
     .nav-menu {
         position: fixed;
-        top: var(--header-height);
-        right: -100%;
-        width: 80%;
-        height: 100%;
-        padding: 2rem;
-        background-color: rgba(255, 255, 255, .3);
-        transition: .5s;
-        backdrop-filter: blur(10px);
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(75%, 300px);
+        padding: calc(var(--header-height) + 2rem) 2rem 2rem;
+        background-color: var(--white-color);
+        box-shadow: -8px 0 24px rgba(0, 0, 0, .25);
+        transform: translateX(100%);
+        visibility: hidden;
+        transition: transform .4s ease, visibility .4s;
+        overflow-y: auto;
     }
-} 
+
+    .nav-checkbox:checked ~ .l-header .nav-menu {
+        transform: translateX(0);
+        visibility: visible;
+    }
+
+    .nav-checkbox:focus-visible ~ .l-header .nav-toggle {
+        outline: 2px solid var(--white-color);
+        outline-offset: 2px;
+    }
+
+    .nav-item {
+        margin-bottom: var(--mb-3);
+    }
+
+    .nav-link {
+        display: inline-block;
+        font-size: 1.1rem;
+    }
+
+    /* ikon hamburger / close */
+    .nav-toggle {
+        position: relative;
+        z-index: 2;
+    }
+
+    .nav-toggle .icon-close {
+        display: none;
+    }
+
+    .nav-checkbox:checked ~ .l-header .nav-toggle .icon-open {
+        display: none;
+    }
+
+    .nav-checkbox:checked ~ .l-header .nav-toggle .icon-close {
+        display: block;
+        color: var(--white-color);
+    }
+}
 
 .nav-item {
     margin-bottom: var(--mb-4);
@@ -244,9 +324,14 @@ img {
 }
 
 .nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--white-color);
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     cursor: pointer;
+    margin-left: auto;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* show menu */
@@ -274,7 +359,10 @@ img {
 
 .home-container {
     height: calc(100vh - var(--header-height));
-    row-gap: 5rem;
+    height: calc(100svh - var(--header-height));
+    min-height: 26rem;
+    grid-template-rows: 1fr auto;
+    row-gap: 2rem;
 }
 
 .home-title {
@@ -327,8 +415,10 @@ img {
 }
 
 .about-img img {
-    width: 150px;
-    height: 250px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
 }
 
 .about-subtitle {
@@ -357,7 +447,7 @@ img {
 
 /* skills */
 .skills {
-    padding-bottom: 10rem;
+    padding-bottom: 4rem;
 }
 
 .skills-container {
@@ -456,9 +546,10 @@ img {
     padding: .8rem;
     outline: none;
     border: 1.5px solid var(--dark-color);
-    font-size: var(--normal-font-size);
+    font-size: max(16px, var(--normal-font-size)); /* cegah auto-zoom di iOS */
     margin-bottom: var(--mb-4);
     border-radius: .5rem;
+    resize: vertical;
 }
 
 .contact-button {
@@ -490,7 +581,8 @@ img {
 }
 
 .footer-link {
-    padding: .25rem 0;
+    display: inline-block;
+    padding: .4rem 0;
 }
 
 .footer-link:hover {
@@ -498,8 +590,10 @@ img {
 }
 
 .footer-social {
-    font-size: 1.4rem;
+    display: inline-block;
+    font-size: 1.6rem;
     margin-right: var(--mb-1);
+    padding: .25rem;
 }
 
 .footer-social:hover {
@@ -565,12 +659,13 @@ img {
 
     .home-container {
         height: 100vh;
+        min-height: 0;
         grid-template-rows: 1.7fr 1fr;
         row-gap: 0;
     }
 
     .home-img {
-        width: 524px;
+        width: 424px;
         right: 10%;
     }
 
@@ -586,8 +681,8 @@ img {
         height: 200px;
     }
 
-    .about-img img {
-        width: 185px;
+    .skills {
+        padding-bottom: 10rem;
     }
 
     .skills-container {
@@ -617,9 +712,46 @@ img {
 
 }
 
+/* layar kecil */
+@media screen and (max-width: 480px) {
+    .contact-inputs {
+        grid-template-columns: 1fr;
+    }
+
+    .home-img {
+        width: 260px;
+    }
+}
+
 @media screen and (min-width: 1024px) {
     .bg-grid {
         margin-right: auto;
         margin-left: auto;
+    }
+}
+
+/* layar sentuh: tidak ada hover, jadi tombol "View details" selalu tampil */
+@media (hover: none) {
+    .reward-link {
+        bottom: 0;
+        height: auto;
+        padding: .6rem;
+        border-radius: 0 0 .5rem .5rem;
+        background-color: rgba(255, 255, 255, .55);
+    }
+}
+
+/* HP kecil */
+@media screen and (max-width: 360px) {
+    :root {
+        --big-font-size: 5rem;
+    }
+}
+
+/* HP landscape (tinggi layar pendek) */
+@media screen and (max-height: 450px) and (orientation: landscape) {
+    .home-container {
+        height: auto;
+        min-height: 100svh;
     }
 }
